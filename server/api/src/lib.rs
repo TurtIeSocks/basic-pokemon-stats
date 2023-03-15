@@ -1,6 +1,7 @@
 use actix_web::{middleware, web, App, HttpServer};
+use log::LevelFilter;
 use migration::{Migrator, MigratorTrait};
-use sea_orm::Database;
+use sea_orm::{Database, ConnectOptions};
 
 mod routes;
 
@@ -8,7 +9,10 @@ mod routes;
 pub async fn start() -> std::io::Result<()> {
     let database_url = std::env::var("DATABASE_URL").expect("[INIT] DATABASE_URL not found");
 
-    let connection = match Database::connect(&database_url).await {
+    let mut opt = ConnectOptions::new(database_url);
+    opt.sqlx_logging_level(LevelFilter::Debug);
+
+    let connection = match Database::connect(opt).await {
         Ok(db) => db,
         Err(err) => panic!("[API] Cannot connect to Scanner DB: {}", err),
     };
