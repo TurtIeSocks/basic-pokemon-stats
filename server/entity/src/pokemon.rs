@@ -13,6 +13,8 @@ pub struct Model {
     pub lat: f64,
     #[sea_orm(column_type = "Double")]
     pub lon: f64,
+    pub first_seen: DateTimeUtc,
+    pub last_seen: DateTimeUtc,
 }
 
 #[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
@@ -33,6 +35,7 @@ impl Query {
             form_id: Set(webhook.message.form),
             lat: Set(webhook.message.latitude),
             lon: Set(webhook.message.longitude),
+            ..Default::default()
         }))
         .on_conflict(
             OnConflict::column(Column::Id)
