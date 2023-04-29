@@ -45,11 +45,13 @@ impl MigrationTrait for Migration {
 }
 
 #[derive(Iden)]
-enum Pokemon {
+pub enum Pokemon {
     Table,
     Id,
     PokemonId,
     FormId,
     Lat,
     Lon,
+    FirstSeen,
+    LastSeen,
 }
