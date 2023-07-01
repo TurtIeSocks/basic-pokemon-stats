@@ -1,3 +1,4 @@
 # Rust
 server/target
 server/.env
+.DS_Store
